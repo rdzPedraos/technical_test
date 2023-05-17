@@ -48,6 +48,8 @@ function Create(props) {
                         ) : (
                             <TextField
                                 fullWidth
+                                id={id}
+                                name={id}
                                 key={id}
                                 value={data[id]}
                                 onChange={e => setData(id, e.target.value)}

@@ -28,9 +28,16 @@ function Record({ user, number }) {
                 <TableCell>{document_number}</TableCell>
                 <TableCell>{name}</TableCell>
                 <TableCell>
-                    {categories.map(category => (
-                        <span key={category.id}>{category.value}</span>
-                    ))}
+                    <div className="flex gap-2">
+                        {categories.map(category => (
+                            <div
+                                key={category.id}
+                                className={`p-2  rounded text-white bg-[${category.color}]`}
+                            >
+                                {category.value}
+                            </div>
+                        ))}
+                    </div>
                 </TableCell>
                 <TableCell align="right">
                     <Link href={route('users.show', id)}>

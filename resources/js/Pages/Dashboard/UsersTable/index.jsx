@@ -8,7 +8,7 @@ import Filters from './partials/Filters';
 import { FilterContext } from '@/Contexts/FilterContext';
 
 function UsersTable({ categories }) {
-    const { users } = useContext(FilterContext);
+    const { users, pagination } = useContext(FilterContext);
 
     return (
         <Paper>
@@ -17,7 +17,11 @@ function UsersTable({ categories }) {
                 <Header />
                 <TableBody>
                     {users.map((user, id) => (
-                        <Record key={user.id} user={user} number={id} />
+                        <Record
+                            key={user.id}
+                            user={user}
+                            number={id + (pagination.page - 1) * pagination.per_page}
+                        />
                     ))}
                 </TableBody>
             </Table>

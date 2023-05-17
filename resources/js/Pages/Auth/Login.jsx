@@ -17,30 +17,37 @@ export default function Login() {
             <Head title="Log in" />
 
             <form onSubmit={submit}>
-                <TextField
-                    id="email"
-                    type="email"
-                    value={data.email}
-                    placeholder="admin@admin.com"
-                    focused={true}
-                    onChange={e => setData('email', e.target.value)}
-                    helperText={errors.email}
-                    error={!!errors.email}
-                />
+                <div className="min-h-screen max-w-lg flex flex-col justify-center  mx-auto gap-4">
+                    <h1 className="font-bold text-2xl mb-4">Login</h1>
+                    <TextField
+                        label="Email"
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={data.email}
+                        placeholder="admin@admin.com"
+                        focused={true}
+                        onChange={e => setData('email', e.target.value)}
+                        helperText={errors.email}
+                        error={!!errors.email}
+                    />
 
-                <TextField
-                    type="password"
-                    value={data.password}
-                    placeholder="******"
-                    isFocused={true}
-                    onChange={e => setData('password', e.target.value)}
-                    helperText={errors.password}
-                    error={!!errors.password}
-                />
+                    <TextField
+                        label="Contraseña"
+                        type="password"
+                        name="password"
+                        value={data.password}
+                        placeholder="******"
+                        isFocused={true}
+                        onChange={e => setData('password', e.target.value)}
+                        helperText={errors.password}
+                        error={!!errors.password}
+                    />
 
-                <Button variant="contained" type="submit" disabled={processing}>
-                    Enviar
-                </Button>
+                    <Button variant="contained" type="submit" disabled={processing}>
+                        Enviar
+                    </Button>
+                </div>
             </form>
         </>
     );

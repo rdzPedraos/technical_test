@@ -45,6 +45,8 @@ function Edit({ user, ...props }) {
                             <TextField
                                 fullWidth
                                 key={id}
+                                id={id}
+                                name={id}
                                 value={data[id] ?? ''}
                                 onChange={e => setData(id, e.target.value)}
                                 label={label}

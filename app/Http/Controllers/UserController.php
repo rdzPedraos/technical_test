@@ -62,7 +62,7 @@ class UserController extends Controller
             }
         }
 
-        $data = $sql->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
+        $data = $sql->orderBy('document_number', 'asc')->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
         return response()->json($data);
     }
 
