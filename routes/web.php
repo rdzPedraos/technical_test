@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,14 +26,37 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::get('/', function () {
+    return redirect()->route('users.index');
 });
 
-require __DIR__.'/auth.php';
+Route::group([
+    'as' => 'profile.',
+    'middleware' => 'auth',
+    'prefix' => '/profile',
+    'controller' => ProfileController::class
+], function () {
+    Route::get('/', 'edit')->name('edit');
+    Route::patch('/', 'update')->name('update');
+    Route::delete('/', 'destroy')->name('destroy');
+});
+
+Route::group([
+    'middleware' => ['auth', 'verified'],
+    'controller' => UserController::class,
+    'prefix' => '/users',
+    'as' => 'users.'
+], function () {
+    Route::get('/', 'index')->name('index');
+    Route::post('/', 'get');
+
+    Route::get('/create', 'create')->name('create');
+    Route::post('/create', 'store');
+
+    Route::get('/show/{user}', 'show')->name('show');
+    Route::put('/edit/{user}', 'update');
+
+    Route::delete('/delete/{user}', 'destroy')->name('delete');
+});
+
+require __DIR__ . '/auth.php';
