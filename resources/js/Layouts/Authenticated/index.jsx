@@ -7,7 +7,7 @@ function AuthenticatedLayout({ children }) {
         <UserProvider>
             <div className="flex flex-col h-full max-w-5xl gap-4 mx-auto">
                 <Header />
-                <main>{children}</main>
+                <main className="mb-16">{children}</main>
             </div>
         </UserProvider>
     );

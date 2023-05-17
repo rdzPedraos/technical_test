@@ -15,7 +15,7 @@ function Header({ className, ...props }) {
         <header className={`flex justify-between items-center p-5 ${className}`} {...props}>
             <ApplicationLogo />
 
-            {route().current('dashboard') && (
+            {route().current('users.index') && (
                 <LinkComponent
                     className="flex gap-2 hover:text-primary-900"
                     href={route('profile.edit')}
@@ -27,7 +27,7 @@ function Header({ className, ...props }) {
             )}
 
             {route().current('profile.edit') && (
-                <LinkComponent href={route('dashboard')}>
+                <LinkComponent href={route('users.index')}>
                     <ClearOutlined />
                 </LinkComponent>
             )}

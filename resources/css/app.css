@@ -12,3 +12,7 @@
         --danger-color: 185 77 76;
     }
 }
+
+input:focus {
+    box-shadow: inherit !important;
+}

@@ -11,7 +11,7 @@ function LinkComponent({ className, children, ...props }) {
 
 LinkComponent.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.array,
 };
 
 export default LinkComponent;
