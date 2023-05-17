@@ -4,13 +4,17 @@ import PropTypes from 'prop-types';
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 import UserConfigInputs from '@/Config/UserConfig';
 
-function Edit({ user, ...props }) {
+function Edit({ user, categories, ...props }) {
     UserConfigInputs.forEach(input => {
         if (input.id_options) {
             input.options = props[input.id_options];
         }
     });
-    const { data, setData, errors, put, processing } = useForm(user);
+
+    const { data, setData, errors, put, processing } = useForm({
+        ...user,
+        categories: user.categories.map(category => category.value),
+    });
 
     const onSubmit = e => {
         e.preventDefault();
@@ -28,6 +32,19 @@ function Edit({ user, ...props }) {
                 </p>
 
                 <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-6">
+                    <Select
+                        multiple
+                        value={data.categories ?? 'Cliente'}
+                        renderValue={selected => selected.join(', ')}
+                        onChange={ev => setData('categories', ev.target.value)}
+                    >
+                        {categories.map(category => (
+                            <MenuItem key={category.id} value={category.value}>
+                                {category.value}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
                     {UserConfigInputs.map(({ type, options, id, label, ...props }) =>
                         type === 'select' ? (
                             <Select
@@ -68,6 +85,7 @@ function Edit({ user, ...props }) {
 
 Edit.propTypes = {
     user: PropTypes.object,
+    categories: PropTypes.array,
 };
 
 export default Edit;

@@ -88,7 +88,8 @@ class UserController extends Controller
     public function create()
     {
         $countryList = $this->getCountries();
-        return Inertia::render('User/Create', compact('countryList'));
+        $categories = Category::all();
+        return Inertia::render('User/Create', compact('countryList', 'categories'));
     }
 
     /**
@@ -98,7 +99,11 @@ class UserController extends Controller
     {
         $data = $request->all();
         $data['password'] = Hash::make($data['document_number']);
-        User::create($data);
+        $user = User::create($data);
+
+        $categories = Category::whereIn('value', $data['categories'])->get();
+
+        $user->categories()->sync($categories->pluck('id')->all());
         return redirect()->route('users.index');
     }
 
@@ -107,8 +112,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user = User::with('categories')->where('id', $user->id)->first();
         $countryList = $this->getCountries();
-        return Inertia::render('User/Edit', compact('user', 'countryList'));
+        $categories = Category::all();
+        return Inertia::render('User/Edit', compact('user', 'countryList', 'categories'));
     }
 
 
@@ -117,7 +124,11 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $user->fill($request->all())->save();
+        $data = $request->all();
+        $user->fill($data)->save();
+
+        $categories = Category::whereIn('value', $data['categories'])->get();
+        $user->categories()->sync($categories->pluck('id')->all());
         return redirect()->route('users.index');
     }
 

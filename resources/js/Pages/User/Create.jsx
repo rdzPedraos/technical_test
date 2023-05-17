@@ -1,9 +1,10 @@
 import { Head, useForm } from '@inertiajs/react';
+import PropTypes from 'prop-types';
 
-import { Button, ListItemIcon, MenuItem, Select, TextField } from '@mui/material';
+import { Button, MenuItem, Select, TextField } from '@mui/material';
 import UserConfigInputs from '@/Config/UserConfig';
 
-function Create(props) {
+function Create({ categories, ...props }) {
     const values = {};
 
     UserConfigInputs.forEach(input => {
@@ -14,7 +15,7 @@ function Create(props) {
         }
     });
 
-    const { data, setData, errors, post, processing } = useForm(values);
+    const { data, setData, errors, post, processing } = useForm({ categories: [], ...values });
 
     const onSubmit = e => {
         e.preventDefault();
@@ -32,6 +33,19 @@ function Create(props) {
                 </p>
 
                 <form onSubmit={onSubmit} className="flex flex-col gap-4 mt-6">
+                    <Select
+                        multiple
+                        value={data.categories ?? 'Cliente'}
+                        renderValue={selected => selected.join(', ')}
+                        onChange={ev => setData('categories', ev.target.value)}
+                    >
+                        {categories.map(category => (
+                            <MenuItem key={category.id} value={category.value}>
+                                {category.value}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
                     {UserConfigInputs.map(({ type, options, id, label, ...props }) =>
                         type === 'select' ? (
                             <Select
@@ -61,7 +75,7 @@ function Create(props) {
                         )
                     )}
 
-                    <Button type="submit" variant="contained" processing={processing}>
+                    <Button type="submit" variant="contained" disabled={processing}>
                         Enviar
                     </Button>
                 </form>
@@ -69,5 +83,9 @@ function Create(props) {
         </>
     );
 }
+
+Create.propTypes = {
+    categories: PropTypes.array,
+};
 
 export default Create;

@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
         $countryCodesList = $response->ok() ? $response->json() : [];
 
         return [
-            'document_number' => ['required', 'unique:users'],
+            'document_number' => ['required', 'unique:users', 'min:0', 'max:4294967295', 'max:10'],
             'name' => ['required', 'string', 'min:5', 'max:100', 'regex:/^[A-Za-z\s]+$/'],
             'last_name' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z\s]+$/'],
             'email' => ['required', 'email', 'max:150', 'unique:users'],
