@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button, TableCell, TableRow } from '@mui/material';
 
-function Record({ user, onEdit, onDelete }) {
+function Record({ user, onEdit, onDelete, number }) {
     const { name, categories, document_number } = user;
 
     return (
         <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                <TableCell>{number}</TableCell>
                 <TableCell>{document_number}</TableCell>
                 <TableCell>{name}</TableCell>
                 <TableCell>
@@ -33,6 +33,7 @@ Record.propTypes = {
     }),
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
+    number: PropTypes.number,
 };
 
 export default Record;

@@ -21,7 +21,7 @@ function Filters({ categories }) {
     };
 
     return (
-        <div className="grid grid-cols-3 border-b-[1px]">
+        <div className={`grid grid-cols-${categories.length} border-b-[1px]`}>
             {categories.map(({ id, value }) => (
                 <p
                     key={id}

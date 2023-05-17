@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -22,17 +23,40 @@ class UserController extends Controller
     public function get(Request $request)
     {
         $filters = $request->validate([
-            'search' => ['string']
+            'search' => ['nullable', 'string'],
+            'categories' => ['nullable', 'array'],
+            'categories.*' => ['exists:categories,value']
         ]);
 
-        $sql = User::with('categories')->where('id', '!=', Auth::user()->id);
+        $pagination = $request->validate([
+            'page' => ['required', 'integer'],
+            'per_page' => ['required', 'integer']
+        ]);
 
-        if (!empty($filters)) {
-            //$sql->where();
+
+        $sql = User::with('categories')->where('id', '!=', Auth::user()->id);
+        $wheres = [
+            'categories' => fn (&$q, $v) => $q->whereHas('categories', function ($query) use ($v) {
+                $query->whereIn('value', $v);
+            }),
+            'search' => fn (&$q, $v) => $q->where(function ($query) use ($v) {
+                $query->where('document_number', 'LIKE',  "%$v%")
+                    ->orWhere(DB::raw("CONCAT_WS(' ',LOWER(name),LOWER(last_name))"), 'LIKE', '%' . strtolower($v) . '%');
+            })
+        ];
+
+        foreach ($filters as $id => $filter) {
+            if (
+                (
+                    (!is_array($filter) && $filter !== null) ||
+                    (is_array($filter) && !empty($filter))
+                ) && isset($wheres[$id])
+            ) {
+                $wheres[$id]($sql, $filter);
+            }
         }
 
-        $data = $sql->where('id', '!=', Auth::user()->id)->get();
-
+        $data = $sql->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
         return response()->json($data);
     }
 

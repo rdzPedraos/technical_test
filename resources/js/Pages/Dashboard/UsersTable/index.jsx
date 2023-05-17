@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Table, TableBody } from '@mui/material';
 
@@ -16,8 +16,8 @@ function UsersTable({ categories }) {
             <Table>
                 <Header />
                 <TableBody>
-                    {users.map(user => (
-                        <Record key={user.id} user={user} />
+                    {users.map((user, id) => (
+                        <Record key={user.id} user={user} number={id} />
                     ))}
                 </TableBody>
             </Table>

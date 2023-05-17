@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types';
-import { Box, IconButton, TableCell, TablePagination, TableRow, TextField } from '@mui/material';
+import { Box, IconButton, TableCell, TablePagination, TableRow } from '@mui/material';
 import {
     FirstPageOutlined,
     KeyboardArrowLeft,
     KeyboardArrowRight,
     LastPageOutlined,
 } from '@mui/icons-material';
+import Searching from './Searching';
+import { FilterContext } from '@/Contexts/FilterContext';
+import { useContext } from 'react';
 
 // eslint-disable-next-line react/prop-types
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
@@ -60,26 +62,43 @@ function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
 }
 
 function Pagination() {
+    const { pagination, onSubmit } = useContext(FilterContext);
+
+    const onPageChange = (ev, newPage) => {
+        onSubmit({
+            ...pagination,
+            page: newPage + 1,
+        });
+    };
+
+    const onRowsPerPageChange = ev => {
+        onSubmit({
+            ...pagination,
+            per_page: ev.target.value,
+        });
+    };
+
     return (
         <TableRow>
-            <TableCell colSpan={2}>
-                <TextField label="Buscar por id o nombre" variant="outlined" fullWidth />
+            <TableCell colSpan={3}>
+                <Searching />
             </TableCell>
 
             <TablePagination
                 colSpan={2}
-                rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: -1 }]}
-                count={30}
-                rowsPerPage={5}
-                page={1}
+                component={TableCell}
+                count={pagination.total ?? 0}
+                page={pagination.page - 1}
+                rowsPerPage={pagination.per_page}
+                rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: pagination.total ?? -1 }]}
                 SelectProps={{
                     inputProps: {
                         'aria-label': 'Registros por página',
                     },
                     native: true,
                 }}
-                onPageChange={() => {}}
-                onRowsPerPageChange={() => {}}
+                onPageChange={onPageChange}
+                onRowsPerPageChange={onRowsPerPageChange}
                 ActionsComponent={TablePaginationActions}
             />
         </TableRow>

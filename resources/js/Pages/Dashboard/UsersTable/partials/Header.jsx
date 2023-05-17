@@ -1,16 +1,18 @@
 import { TableCell, TableHead, TableRow } from '@mui/material';
 import Pagination from './Pagination';
-import Filters from './Filters';
 
 function Header() {
     return (
         <TableHead>
             <Pagination />
             <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>Nombre</TableCell>
-                <TableCell>Categorias</TableCell>
-                <TableCell align="right">Opciones</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>ID</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>Categorias</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} align="right">
+                    Opciones
+                </TableCell>
             </TableRow>
         </TableHead>
     );

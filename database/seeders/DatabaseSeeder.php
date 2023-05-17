@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true
         ]);
 
-        $users = User::factory(10)->create();
+        $users = User::factory(50)->create();
         $categories = Category::all();
         foreach ($users as $user) {
             $user->categories()->sync(
