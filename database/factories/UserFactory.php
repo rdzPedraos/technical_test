@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'document_number' => fake()->unique()->randomNumber(9),
             'email' => fake()->unique()->safeEmail(),
-            'country_code' => 'col',
+            'country_code' => 'COL',
             'phone_number' => fake()->numerify('3#########'),
 
             'email_verified_at' => now(),

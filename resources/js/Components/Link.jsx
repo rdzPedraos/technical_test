@@ -11,7 +11,7 @@ function LinkComponent({ className, children, ...props }) {
 
 LinkComponent.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.array,
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
 export default LinkComponent;

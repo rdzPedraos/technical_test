@@ -19,7 +19,7 @@
 </head>
 
 <body class="font-sans antialiased overflow-y-scroll">
-    <div class="bg-[#a2d2ff] bg-[#ffafcc] bg-[#cdb4db]"></div>
+    <div class="bg-[#a2d2ff] bg-[#ffafcc] bg-[#cdb4db] grid-cols-3 grid-cols-4"></div>
     @inertia
 </body>
 

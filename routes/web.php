@@ -42,7 +42,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth', 'verified'],
+    'middleware' => ['auth'],
     'controller' => UserController::class,
     'prefix' => '/users',
     'as' => 'users.'
@@ -51,12 +51,12 @@ Route::group([
     Route::post('/', 'get');
 
     Route::get('/create', 'create')->name('create');
-    Route::post('/create', 'store');
+    Route::post('/create', 'store')->name('store');
 
     Route::get('/show/{user}', 'show')->name('show');
-    Route::put('/edit/{user}', 'update');
+    Route::put('/edit/{user}', 'update')->name('update');
 
-    Route::delete('/delete/{user}', 'destroy')->name('delete');
+    Route::delete('/delete/{user}', 'destroy')->name('destroy');
 });
 
 require __DIR__ . '/auth.php';
