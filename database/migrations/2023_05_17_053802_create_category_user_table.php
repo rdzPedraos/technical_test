@@ -11,11 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::create('category_user', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
             $table->unsignedTinyInteger('category_id');
+            $table->timestamps();
+
+            $table->primary(['user_id', 'category_id']);
+
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
 
             $table->foreign('category_id')->references('id')->on('categories')
-                ->onDelete('RESTRICT')->onUpdate('CASCADE');
+                ->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -24,9 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-            $table->dropColumn('category_id');
-        });
+        Schema::dropIfExists('category_user');
     }
 };
