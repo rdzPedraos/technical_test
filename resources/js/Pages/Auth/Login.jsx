@@ -38,7 +38,6 @@ export default function Login() {
                         name="password"
                         value={data.password}
                         placeholder="******"
-                        isFocused={true}
                         onChange={e => setData('password', e.target.value)}
                         helperText={errors.password}
                         error={!!errors.password}

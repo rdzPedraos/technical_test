@@ -14,6 +14,7 @@ const inputs = [
 
 function Edit({ auth: { user } }) {
     const { data, setData, errors, processing, patch } = useForm(user);
+    console.log(data);
 
     const onSubmit = e => {
         e.preventDefault();
@@ -38,7 +39,7 @@ function Edit({ auth: { user } }) {
                             fullWidth
                             key={id}
                             name={id}
-                            value={data[id]}
+                            value={data[id] ?? ''}
                             onChange={e => setData(id, e.target.value)}
                             error={!!errors[id]}
                             helperText={errors[id]}
