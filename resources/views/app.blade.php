@@ -18,7 +18,7 @@
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased overflow-y-scroll">
+<body class="font-sans antialiased">
     <div class="bg-[#a2d2ff] bg-[#ffafcc] bg-[#cdb4db] grid-cols-3 grid-cols-4"></div>
     @inertia
 </body>
