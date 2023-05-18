@@ -80,27 +80,36 @@ function Pagination() {
 
     return (
         <TableRow>
-            <TableCell colSpan={3}>
-                <Searching />
+            <TableCell colSpan={5}>
+                <div className="grid lg:grid-cols-[1fr_auto] gap-4 lg:gap-16">
+                    <Searching />
+                    <TablePagination
+                        component="div"
+                        count={pagination.total ?? 0}
+                        page={
+                            pagination.total < (pagination.page - 1) * pagination.per_page
+                                ? 0
+                                : pagination.page - 1
+                        }
+                        rowsPerPage={pagination.per_page}
+                        rowsPerPageOptions={[
+                            5,
+                            10,
+                            25,
+                            { label: 'Todos', value: pagination.total ?? -1 },
+                        ]}
+                        SelectProps={{
+                            inputProps: {
+                                'aria-label': 'Registros por página',
+                            },
+                            native: true,
+                        }}
+                        onPageChange={onPageChange}
+                        onRowsPerPageChange={onRowsPerPageChange}
+                        ActionsComponent={TablePaginationActions}
+                    />
+                </div>
             </TableCell>
-
-            <TablePagination
-                colSpan={2}
-                component={TableCell}
-                count={pagination.total ?? 0}
-                page={pagination.page - 1}
-                rowsPerPage={pagination.per_page}
-                rowsPerPageOptions={[5, 10, 25, { label: 'Todos', value: pagination.total ?? -1 }]}
-                SelectProps={{
-                    inputProps: {
-                        'aria-label': 'Registros por página',
-                    },
-                    native: true,
-                }}
-                onPageChange={onPageChange}
-                onRowsPerPageChange={onRowsPerPageChange}
-                ActionsComponent={TablePaginationActions}
-            />
         </TableRow>
     );
 }

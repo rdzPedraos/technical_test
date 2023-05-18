@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Table, TableBody } from '@mui/material';
+import { Table, TableBody, useMediaQuery } from '@mui/material';
 
 import Header from './partials/header';
 import Record from './partials/Record';
@@ -9,15 +9,17 @@ import { FilterContext } from '@/Contexts/FilterContext';
 
 function UsersTable({ categories }) {
     const { users, pagination } = useContext(FilterContext);
+    const isPcScreen = useMediaQuery('(min-width: 1280px)');
 
     return (
-        <Paper>
+        <>
             <Filters categories={categories} />
             <Table>
-                <Header />
+                <Header showCategories={isPcScreen} />
                 <TableBody>
                     {users.map((user, id) => (
                         <Record
+                            showCategories={isPcScreen}
                             key={user.id}
                             user={user}
                             number={id + (pagination.page - 1) * pagination.per_page}
@@ -25,7 +27,7 @@ function UsersTable({ categories }) {
                     ))}
                 </TableBody>
             </Table>
-        </Paper>
+        </>
     );
 }
 

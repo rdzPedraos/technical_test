@@ -1,15 +1,17 @@
-import { TableCell, TableHead, TableRow } from '@mui/material';
-import Pagination from './Pagination';
+import PropTypes from 'prop-types';
 
-function Header() {
+import Pagination from './Pagination';
+import { TableCell, TableHead, TableRow } from '@mui/material';
+
+function Header({ showCategories }) {
     return (
         <TableHead>
             <Pagination />
             <TableRow>
                 <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }}>ID</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Nombre</TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }}>Categorias</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', width: '200px' }}>Nombre</TableCell>
+                {showCategories && <TableCell sx={{ fontWeight: 'bold' }}>Categorias</TableCell>}
                 <TableCell sx={{ fontWeight: 'bold' }} align="right">
                     Opciones
                 </TableCell>
@@ -18,6 +20,8 @@ function Header() {
     );
 }
 
-Header.propTypes = {};
+Header.propTypes = {
+    showCategories: PropTypes.bool,
+};
 
 export default Header;

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Button, TextField } from '@mui/material';
 import { LogoutOutlined } from '@mui/icons-material';
+import LinkComponent from '@/Components/Link';
 
 const inputs = [
     { id: 'email', label: 'Email' },
@@ -25,12 +26,10 @@ function Edit({ auth: { user } }) {
             <div className="max-w-md mx-auto">
                 <div className="flex justify-between mb-8">
                     <h1 className="text-2xl font-bold">Editar Perfil</h1>
-                    <Link method="post" href={route('logout')}>
-                        <Button className="flex gap-2">
-                            <LogoutOutlined />
-                            Cerrar sesión
-                        </Button>
-                    </Link>
+                    <LinkComponent method="post" href={route('logout')} as="button">
+                        <LogoutOutlined />
+                        Cerrar sesión
+                    </LinkComponent>
                 </div>
 
                 <form onSubmit={onSubmit} className="flex flex-col gap-4">

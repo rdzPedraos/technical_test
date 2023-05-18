@@ -5,8 +5,9 @@ import { Link } from '@inertiajs/react';
 import axios from 'axios';
 import { useContext } from 'react';
 import { FilterContext } from '@/Contexts/FilterContext';
+import { Delete, Edit } from '@mui/icons-material';
 
-function Record({ user, number }) {
+function Record({ user, number, showCategories }) {
     const { id, name, categories, document_number } = user;
     const { onSubmit } = useContext(FilterContext);
 
@@ -27,23 +28,30 @@ function Record({ user, number }) {
                 <TableCell>{number}</TableCell>
                 <TableCell>{document_number}</TableCell>
                 <TableCell>{name}</TableCell>
-                <TableCell>
-                    <div className="flex gap-2">
-                        {categories.map(category => (
-                            <div
-                                key={category.id}
-                                className={`p-2  rounded text-white bg-[${category.color}]`}
-                            >
-                                {category.value}
-                            </div>
-                        ))}
-                    </div>
-                </TableCell>
+                {showCategories && (
+                    <TableCell className="hidden lg:block">
+                        <div className="flex gap-2">
+                            {categories.map(category => (
+                                <div
+                                    key={category.id}
+                                    className={`p-2  rounded text-white bg-[${category.color}]`}
+                                >
+                                    {category.value}
+                                </div>
+                            ))}
+                        </div>
+                    </TableCell>
+                )}
                 <TableCell align="right">
                     <Link href={route('users.show', id)}>
-                        <Button>Ver</Button>
+                        <Button>
+                            <Edit />
+                        </Button>
                     </Link>
-                    <Button onClick={onDelete}>Eliminar</Button>
+
+                    <Button onClick={onDelete}>
+                        <Delete />
+                    </Button>
                 </TableCell>
             </TableRow>
         </>
@@ -58,6 +66,7 @@ Record.propTypes = {
         categories: PropTypes.array,
     }),
     number: PropTypes.number,
+    showCategories: PropTypes.bool,
 };
 
 export default Record;

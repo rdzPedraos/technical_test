@@ -5,7 +5,6 @@ import axios from 'axios';
 const FilterContext = createContext();
 
 function FilterProvider({ children }) {
-    const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState({});
     const [users, setUsers] = useState([]);
     const [pagination, setPagination] = useState({
@@ -15,8 +14,6 @@ function FilterProvider({ children }) {
 
     //? Get info each filters is updated
     const onSubmit = (page = pagination) => {
-        setLoading(true);
-
         axios
             .post(route('users.index'), { ...filters, ...page })
             .then(({ data: { data, current_page, total, per_page } }) => {
@@ -36,14 +33,6 @@ function FilterProvider({ children }) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(onSubmit, [filters]);
-
-    //? If user is updated so... waiting 2 seconds and set loading in false.
-    useEffect(() => {
-        if (loading === true) {
-            setTimeout(() => setLoading(false), 2000);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
 
     return (
         <FilterContext.Provider

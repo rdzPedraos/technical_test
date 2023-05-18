@@ -1,15 +1,16 @@
-import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { UserContext } from '@/Contexts/UserContext';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import LinkComponent from '@/Components/Link';
 
 import { ArrowBack, ClearOutlined } from '@mui/icons-material';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import { usePage } from '@inertiajs/react';
 
 function Header({ className, ...props }) {
-    const { user } = useContext(UserContext);
+    const {
+        auth: { user },
+    } = usePage().props;
 
     return (
         <header className={`flex justify-between items-center p-5 ${className}`} {...props}>

@@ -9,9 +9,18 @@ const UserConfigInputs = [
         type: 'select',
         value: 'COL',
         label: 'Selecciona un pais',
-        id_options: 'countryList',
+        id_options: 'countrylist',
+        idAsValue: true,
     },
     { id: 'residence_address', label: 'Ingresa la dirección', placeholder: 'Cra ##' },
+    {
+        id: 'categories',
+        type: 'select',
+        label: 'Categorias ha asignar',
+        renderValue: selected => selected.join(', '),
+        multiple: true,
+        id_options: 'categories',
+    },
 ];
 
 export default UserConfigInputs;

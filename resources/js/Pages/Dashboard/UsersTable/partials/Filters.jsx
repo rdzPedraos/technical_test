@@ -1,7 +1,8 @@
+import { useContext } from 'react';
+import PropTypes from 'prop-types';
+
 import { FilterContext } from '@/Contexts/FilterContext';
 import { PermIdentity } from '@mui/icons-material';
-import PropTypes from 'prop-types';
-import { useContext } from 'react';
 
 function Filters({ categories }) {
     const { filters, setFilters } = useContext(FilterContext);

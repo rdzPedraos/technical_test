@@ -35,7 +35,7 @@ class ProfileController extends Controller
         $request->user()->fill($validated);
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('users.index');
     }
 
     /**

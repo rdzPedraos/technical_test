@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\NewUserRegisteredEvent;
 use App\Http\Requests\CreateUserRequest;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Category;
 use App\Models\User;
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,7 +43,8 @@ class UserController extends Controller
         $wheres = [
             'categories' => fn (&$q, $v) => $q->whereHas('categories', function ($query) use ($v) {
                 $query->whereIn('value', $v);
-            }),
+            }, '=', count($v)),
+
             'search' => fn (&$q, $v) => $q->where(function ($query) use ($v) {
                 $query->where('document_number', 'LIKE',  "%$v%")
                     ->orWhere(DB::raw("CONCAT_WS(' ',LOWER(name),LOWER(last_name))"), 'LIKE', '%' . strtolower($v) . '%');
@@ -63,7 +62,7 @@ class UserController extends Controller
             }
         }
 
-        $data = $sql->orderBy('document_number', 'asc')->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
+        $data = $sql->orderBy('created_at', 'desc')->paginate($pagination['per_page'], ['*'], 'page', $pagination['page']);
         return response()->json($data);
     }
 
@@ -88,9 +87,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $countryList = $this->getCountries();
+        $countrylist = $this->getCountries();
         $categories = Category::all();
-        return Inertia::render('User/Create', compact('countryList', 'categories'));
+        return Inertia::render('Dashboard/User', compact('countrylist', 'categories'));
     }
 
     /**
@@ -115,11 +114,10 @@ class UserController extends Controller
     public function show(User $user)
     {
         $user = User::with('categories')->where('id', $user->id)->first();
-        $countryList = $this->getCountries();
+        $countrylist = $this->getCountries();
         $categories = Category::all();
-        return Inertia::render('User/Edit', compact('user', 'countryList', 'categories'));
+        return Inertia::render('Dashboard/User', compact('user', 'countrylist', 'categories'));
     }
-
 
     /**
      * Update the specified resource in storage.

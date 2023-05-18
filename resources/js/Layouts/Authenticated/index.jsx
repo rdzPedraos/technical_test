@@ -1,15 +1,12 @@
-import { UserProvider } from '@/Contexts/UserContext';
 import PropTypes from 'prop-types';
 import Header from './Header';
 
 function AuthenticatedLayout({ children }) {
     return (
-        <UserProvider>
-            <div className="flex flex-col h-full max-w-5xl gap-4 mx-auto">
-                <Header />
-                <main className="mb-16">{children}</main>
-            </div>
-        </UserProvider>
+        <div className="flex flex-col h-full max-w-6xl gap-4 mx-auto">
+            <Header />
+            <main className="mb-16">{children}</main>
+        </div>
     );
 }
 
