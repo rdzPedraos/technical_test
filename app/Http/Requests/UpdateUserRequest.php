@@ -41,6 +41,9 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 Rule::in(collect($countryCodesList)->pluck('cca3')->all())
             ],
+
+            'categories' => ['nullable', 'array'],
+            'categories.*' => ['exists:categories,value']
         ];
     }
 }

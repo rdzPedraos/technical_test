@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewUserRegisteredEvent;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -97,13 +98,14 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $data['password'] = Hash::make($data['document_number']);
         $user = User::create($data);
 
         $categories = Category::whereIn('value', $data['categories'])->get();
-
         $user->categories()->sync($categories->pluck('id')->all());
+
+        event(new NewUserRegisteredEvent($user));
         return redirect()->route('users.index');
     }
 
@@ -124,7 +126,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $user->fill($data)->save();
 
         $categories = Category::whereIn('value', $data['categories'])->get();
